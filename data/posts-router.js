@@ -73,7 +73,6 @@ router.post('/', (req, res) => {
     }
 })
 
-// Needs checking
 router.post('/:id/comments', (req, res) => {
     const commentInfo = req.body;
     const { id } = req.params;
