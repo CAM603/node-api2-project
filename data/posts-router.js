@@ -79,6 +79,7 @@ router.post('/', (req, res) => {
 router.post('/:id/comments', (req, res) => {
     const { id } = req.params;
     const commentInfo = req.body;
+    commentInfo.post_id = id
 
     Posts.findById(id)
         .then(post => {
@@ -99,7 +100,7 @@ router.post('/:id/comments', (req, res) => {
                     })
                     .catch(err => {
                         console.log(err)
-                        res.status(500).json({ error: "There was an error while saving the comment to the database" })
+                        res.status(500).json({ error: err.message })
                     })
             }
         })
