@@ -57,6 +57,7 @@ router.get('/:id/comments', (req, res) => {
 })
 
 router.post('/', (req, res) => {
+
     const postInfo = req.body;
 
     if(!postInfo.title || !postInfo.contents) {
@@ -76,8 +77,8 @@ router.post('/', (req, res) => {
 })
 
 router.post('/:id/comments', (req, res) => {
-    const commentInfo = req.body;
     const { id } = req.params;
+    const commentInfo = req.body;
 
     Posts.findById(id)
         .then(post => {
@@ -88,7 +89,13 @@ router.post('/:id/comments', (req, res) => {
             } else {
                 Posts.insertComment(req.body)
                     .then(comment => {
-                        res.status(201).json(comment)
+                        Posts.findPostComments(id)
+                            .then(posts => {
+                                let poop = posts.filter(el => el.id === comment.id)
+                                
+                                res.status(201).json(poop)
+                            })
+                            .catch()
                     })
                     .catch(err => {
                         console.log(err)
